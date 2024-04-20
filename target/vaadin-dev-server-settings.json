@@ -1,0 +1,17 @@
+{
+  "frontendFolder": "C:/Users/Daniel/workspace/Java/Picate Project/learn/./frontend",
+  "themeFolder": "themes",
+  "themeResourceFolder": "C:/Users/Daniel/workspace/Java/Picate Project/learn/./frontend/generated/jar-resources",
+  "staticOutput": "C:/Users/Daniel/workspace/Java/Picate Project/learn/target/classes/META-INF/VAADIN/webapp/VAADIN/static",
+  "generatedFolder": "generated",
+  "statsOutput": "C:\\Users\\Daniel\\workspace\\Java\\Picate Project\\learn\\target\\classes\\META-INF\\VAADIN\\config",
+  "frontendBundleOutput": "C:\\Users\\Daniel\\workspace\\Java\\Picate Project\\learn\\target\\classes\\META-INF\\VAADIN\\webapp",
+  "devBundleOutput": "C:/Users/Daniel/workspace/Java/Picate Project/learn/target/dev-bundle/webapp",
+  "devBundleStatsOutput": "C:/Users/Daniel/workspace/Java/Picate Project/learn/target/dev-bundle/config",
+  "jarResourcesFolder": "C:/Users/Daniel/workspace/Java/Picate Project/learn/./frontend/generated/jar-resources",
+  "themeName": "",
+  "clientServiceWorkerSource": "C:\\Users\\Daniel\\workspace\\Java\\Picate Project\\learn\\target\\sw.ts",
+  "pwaEnabled": false,
+  "offlineEnabled": false,
+  "offlinePath": "'offline.html'"
+}
