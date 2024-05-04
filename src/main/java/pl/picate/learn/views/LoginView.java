@@ -18,21 +18,16 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
-import pl.picate.learn.security.UserAuthenticationProvider;
+import pl.picate.learn.security.authentication.UserAuthenticationProvider;
 
 @Route("login") 
 @PageTitle("Login In")
 @AnonymousAllowed
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
-	private final LoginForm login = new LoginForm(); 
-	private final UserAuthenticationProvider daoAuthProvider;
-	private final PasswordEncoder passwordEncoderSecurity;
+	private final LoginForm login = new LoginForm();
 
-	public LoginView(UserAuthenticationProvider daoAuthProvider, PasswordEncoder passwordEncoder){
-		this.daoAuthProvider = daoAuthProvider;
-		this.passwordEncoderSecurity = passwordEncoder;
-		this.daoAuthProvider.setPasswordEncoder(passwordEncoderSecurity);
+	public LoginView(){
 		this.setId("main");
 		addClassName("login-view");
 		setSizeFull();
@@ -73,10 +68,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 		this.login.addLoginListener((e)->auth(e));
 	}
 
-	private void auth(LoginEvent e) {
-		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(e.getUsername(), e.getPassword());
-		Authentication pass = daoAuthProvider.authenticate(auth);
-		SecurityContextHolder.getContext().setAuthentication(pass);	
+	private void auth(LoginEvent e) {	
 		UI.getCurrent().navigateToClient("/"+e.getUsername());
 	}
 }

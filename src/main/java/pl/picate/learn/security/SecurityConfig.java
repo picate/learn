@@ -18,6 +18,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
 
 import pl.picate.learn.login.user.BusinessUserService;
+import pl.picate.learn.security.authentication.UserAuthenticationProvider;
 import pl.picate.learn.views.LoginView;
 
 @EnableWebSecurity
