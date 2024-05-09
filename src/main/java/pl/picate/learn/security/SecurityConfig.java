@@ -1,9 +1,13 @@
 package pl.picate.learn.security;
 
+import java.util.ArrayList;
+
+import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -17,7 +21,9 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
 
+import net.bytebuddy.asm.Advice.Return;
 import pl.picate.learn.login.user.BusinessUserService;
+import pl.picate.learn.security.authentication.UserAuthenticationManager;
 import pl.picate.learn.security.authentication.UserAuthenticationProvider;
 import pl.picate.learn.views.LoginView;
 
@@ -25,17 +31,13 @@ import pl.picate.learn.views.LoginView;
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig extends VaadinWebSecurity {
-
-	@Autowired
-	private BusinessUserService businessUserService;
 	
 	@Bean
-	public UserAuthenticationProvider daoAuthProvider() {
-		UserAuthenticationProvider provider = new UserAuthenticationProvider();
-
-		provider.setUserDetailsService((UserDetailsService) businessUserService);
-		provider.setPasswordEncoder(passwordEncoderSecurity());
-		return provider;
+	public UserAuthenticationManager userAuthManger() {
+		ArrayList<AuthenticationProvider> listProvider = new ArrayList<>();
+		listProvider.add(new UserAuthenticationProvider());
+		UserAuthenticationManager manager = new UserAuthenticationManager(listProvider);
+		return manager;
 	}
 
 	@Bean

@@ -3,12 +3,15 @@ package pl.picate.learn.views;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.login.AbstractLogin;
 import com.vaadin.flow.component.login.AbstractLogin.LoginEvent;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -18,13 +21,18 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
+import pl.picate.learn.login.user.BusinessUserService;
+import pl.picate.learn.security.SecurityUtils;
 import pl.picate.learn.security.authentication.UserAuthenticationProvider;
 
 @Route("login") 
 @PageTitle("Login In")
 @AnonymousAllowed
-public class LoginView extends VerticalLayout implements BeforeEnterObserver {
+public class LoginView extends VerticalLayout implements BeforeEnterObserver,ComponentEventListener<AbstractLogin.LoginEvent> {
 
+	@Autowired
+	private BusinessUserService businessUserService; 
+	
 	private final LoginForm login = new LoginForm();
 
 	public LoginView(){
@@ -65,10 +73,17 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 		pi.setClassName("sign-in-h");
 		
 		add(pi, login);
-		this.login.addLoginListener((e)->auth(e));
+		this.login.addLoginListener(this);
 	}
-
-	private void auth(LoginEvent e) {	
-		UI.getCurrent().navigateToClient("/"+e.getUsername());
-	}
+	  @Override
+	    public void onComponentEvent(AbstractLogin.LoginEvent loginEvent) {
+		  SecurityUtils.setBusinessUserService(businessUserService);
+	        boolean authenticated = SecurityUtils.authenticate(
+	                loginEvent.getUsername(), loginEvent.getPassword());
+	        if (authenticated) {
+	            UI.getCurrent().getPage().setLocation("/home");
+	        } else {
+	            login.setError(true);
+	        }
+	    }
 }
